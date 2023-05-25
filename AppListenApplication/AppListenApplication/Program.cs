@@ -12,8 +12,7 @@ namespace AppListenApplication
         static void Main(string[] args)
         {
 
-           
-
+      
             var configConnection = new ConnectionFactory()
             {
                 HostName = "localhost",
@@ -22,6 +21,15 @@ namespace AppListenApplication
                 Port = 15672
             };
 
+            using(var connection = configConnection.CreateConnection())
+            using (var virtualConnection = connection.CreateModel())
+            {
+                virtualConnection.QueueDeclare(queue: "",
+                    durable: true,
+                    autoDelete: false,
+                    arguments: null,
+                    exclusive: false);
+            }
 
         }
     }
